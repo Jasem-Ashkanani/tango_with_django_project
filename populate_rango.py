@@ -19,7 +19,7 @@ def populate():
              url="http://www.korokithakis.net/tutorials/python/")
 
     add_page(cat=django_cat, title="Official Django Tutorial",
-             url="https://docs.djangoproject.com/en/2.2/intro/tutorial01/")
+         url="https://docs.djangoproject.com/en/2.1/intro/tutorial01/")
     add_page(cat=django_cat, title="Django Rocks",
              url="http://www.djangorocks.com/")
     add_page(cat=django_cat, title="How to Tango with Django",
@@ -36,12 +36,17 @@ def add_category(name, views=0, likes=0):
     category, created = Category.objects.get_or_create(name=name, defaults={'views': views, 'likes': likes})
     return category
 
-def add_page(cat, title, url, views=0):
-    if cat is None:
-        print(f"Error: Category is None when adding page '{title}'")
-        return None
-    page, created = Page.objects.get_or_create(category=cat, title=title, url=url, views=views)
-    return page
+def add_page(cat, title, url, views=10):  
+    p, created = Page.objects.get_or_create(category=cat, title=title)
+    p.url = url
+    p.views = views  
+    p.save()
+    return p
+
+def add_cat(name, views=0, likes=0):
+    cat = Category.objects.get_or_create(name=name, views=views, likes=likes)[0]
+    cat.save()
+    return cat
     
 
 

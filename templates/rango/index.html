@@ -9,6 +9,26 @@
     <h1>Welcome to Rango app!</h1>
     <p>This is the Rango index page.</p>
     <a href="{% url 'rango:about' %}">About</a><br />
+
+    <!-- Add the categories and pages sections -->
+    <h2>Most Liked Categories</h2>
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a></li>
+        {% empty %}
+            <li><strong>There are no categories present.</strong></li>
+        {% endfor %}
+    </ul>
+
+    <h2>Most Viewed Pages</h2>
+<ul>
+    {% for page in pages %}
+        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+    {% empty %}
+        <li><strong>There are no pages present.</strong></li>
+    {% endfor %}
+</ul>
+
 </body>
 </html>
 

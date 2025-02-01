@@ -1,0 +1,65 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Category: {{ category.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    {% if category %}
+        <h1>{{ category.name }}</h1> 
+        
+        {% if pages %}
+            <h2>Related Pages</h2>
+            <ul>
+                {% for page in pages %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>No pages currently in category.</strong></p>
+        {% endif %}
+    
+    {% else %}
+        <p><strong>The specified category does not exist.</strong></p>
+    {% endif %}
+
+    <p><a href="{% url 'rango:index' %}">Go to Rango Homepage</a></p>
+
+    <a href="{% url 'rango:index' %}">Back to Index</a>
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category: {{ category.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    {% if category %}
+    <h1>{{ category.name }}</h1> 
+        
+        {% if pages %}
+            <h2>Related Pages</h2>
+            <ul>
+                {% for page in pages %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p><strong>No pages currently in category.</strong></p>
+        {% endif %}
+    
+    {% else %}
+        <p><strong>The specified category does not exist.</strong></p>
+    {% endif %}
+
+    <p><a href="{% url 'rango:index' %}">Home</a></p>  <!-- ✅ Test Expected Format -->
+
+</body>
+</html>
