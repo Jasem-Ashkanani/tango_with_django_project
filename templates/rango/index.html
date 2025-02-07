@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Rango</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-</head>
-<body>
+{% extends "rango/base.html" %}
+
+{% block title_block %}
+    Homepage
+{% endblock %}
+
+{% block content %}
     <h1>Welcome to Rango app!</h1>
     <p>This is the Rango index page.</p>
     <a href="{% url 'rango:about' %}">About</a><br />
@@ -19,18 +18,13 @@
         {% endfor %}
     </ul>
     <p><a href="{% url 'rango:add_category' %}">Add a New Category</a><br /></p>
+
     <h2>Most Viewed Pages</h2>
-<ul>
-    {% for page in pages %}
-        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-    {% empty %}
-        <li><strong>There are no pages present.</strong></li>
-    {% endfor %}
-</ul>
-
-</body>
-</html>
-
-
-
-
+    <ul>
+        {% for page in pages %}
+            <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+        {% empty %}
+            <li><strong>There are no pages present.</strong></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
