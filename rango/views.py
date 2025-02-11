@@ -5,11 +5,31 @@ from django.urls import reverse
 from rango.models import Category, Page
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from _datetime import datetime
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5] 
     page_list = Page.objects.order_by('-views')[:5]  
 
+    if 'visits' not in request.session:
+        request.session['visits'] = 1
+        request.session['last_visit'] = str(datetime.now())
+
+    visits = request.session.get('visits', 1)  
+    last_visit = request.session.get('last_visit', str(datetime.now()))
+
+    try:
+        last_visit_time = datetime.strptime(last_visit, "%Y-%m-%d %H:%M:%S.%f")
+    except ValueError:
+        last_visit_time = datetime.strptime(last_visit, "%Y-%m-%d %H:%M:%S")
+
+    if (datetime.now() - last_visit_time).days > 0:
+        visits += 1
+        request.session['visits'] = visits
+        request.session['last_visit'] = str(datetime.now())
+
+    request.session.modified = True 
+
+   
     context_dict = {
         'categories': category_list,
         'pages': page_list,
@@ -37,7 +57,8 @@ def show_category(request, category_name_slug):
     return render(request, 'rango/category.html', context_dict)
 
 def about(request):
-    return render(request, 'rango/about.html')
+    visits = request.session.get('visits', 1) 
+    return render(request, 'rango/about.html', {'visits': visits})
 
 
 @login_required
